@@ -27,7 +27,7 @@ function App() {
     <div className="App">
       {
         data.map(entry => (
-          <PortfolioItem title={entry.title} description={entry.description}/>
+          <PortfolioItem title={entry.title} description={entry.description} background={entry.background} />
         ))
       }
     </div>
