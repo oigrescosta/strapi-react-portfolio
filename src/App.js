@@ -1,7 +1,9 @@
+import React from 'react';
+import axios from 'axios';
 import './App.css';
 import PortfolioItem from './components/PortfolioItem'
 
-const data = [
+const exampleEntries = [
   {
       "id": 1,
       "title": "Everything is gold",
@@ -22,16 +24,34 @@ const data = [
   }
 ]
 
-function App() {
-  return (
-    <div className="App">
-      {
-        data.map(entry => (
-          <PortfolioItem title={entry.title} description={entry.description} background={entry.background} />
-        ))
-      }
-    </div>
-  );
+class App extends React.Component {
+    state = {
+        data:[]
+    }
+
+    async componentDidMount() {
+      console.log("ComponentDidMount");
+      const portfolioResponse = await axios({
+         method:'Get',
+         url: 'http://localhost:1337/portfolios/'
+      })
+
+      const {data} = portfolioResponse
+      console.log("ComponentDidMount data", data)
+      this.setState({data})
+    }
+
+    render() {
+      return (
+        <div className="App">
+          {
+            this.state.data.map(entry => (
+              <PortfolioItem title={entry.title} description={entry.description} background={entry.background} />
+            ))
+          }
+        </div>
+      );
+    }
 }
 
 export default App;
